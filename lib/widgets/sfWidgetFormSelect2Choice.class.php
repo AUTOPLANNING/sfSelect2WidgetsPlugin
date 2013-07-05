@@ -30,6 +30,8 @@ class sfWidgetFormSelect2Choice extends sfWidgetFormChoice
     {
         $this->addOption('culture', sfContext::getInstance()->getUser()->getCulture());
         $this->addOption('width', sfConfig::get('sf_sfSelect2Widgets_width'));
+        $this->addOption('placeholder', '');
+        $this->addOption('allow_clear', false);
 
         parent::configure($options, $attributes);
     }
@@ -38,7 +40,8 @@ class sfWidgetFormSelect2Choice extends sfWidgetFormChoice
     {
         $choices = parent::getChoices();
 
-        if (count($choices) > 0 && isset($choices['']) && $choices[''] == '') {
+        if (count($choices) > 0 && isset($choices['']) && $choices[''] == '' && !$this->getOption('placeholder'))
+        {
             $choices[''] = '&nbsp;';
         }
 
@@ -71,14 +74,16 @@ function formatResult(item)
 jQuery("#%s").select2(
 {
     width:              '%s',
-    allowClear:         %s
+    allowClear:         %s,
+    placeholder:        '%s',
 });
 </script>
 EOF
             ,
             $id,
             $this->getOption('width'),
-            $this->getOption('add_empty') == true ? 'true' : 'false'
+            $this->getOption('allow_clear') == true ? 'true' : 'false',
+            __($this->getOption('placeholder'))
         );
 
         return $return;
