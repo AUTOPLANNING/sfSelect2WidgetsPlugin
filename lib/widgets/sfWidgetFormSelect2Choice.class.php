@@ -32,6 +32,7 @@ class sfWidgetFormSelect2Choice extends sfWidgetFormChoice
         $this->addOption('width', sfConfig::get('sf_sfSelect2Widgets_width'));
         $this->addOption('placeholder', '');
         $this->addOption('allow_clear', false);
+        $this->addOption('close_on_select', true);
 
         parent::configure($options, $attributes);
     }
@@ -76,6 +77,7 @@ jQuery("#%s").select2(
     width:              '%s',
     allowClear:         %s,
     placeholder:        '%s',
+    closeOnSelect:       %s,
 });
 </script>
 EOF
@@ -83,7 +85,8 @@ EOF
             $id,
             $this->getOption('width'),
             $this->getOption('allow_clear') == true ? 'true' : 'false',
-            __($this->getOption('placeholder'))
+            __($this->getOption('placeholder')),
+            $this->getOption('close_on_select') == true ? 'true' : 'false'
         );
 
         return $return;
